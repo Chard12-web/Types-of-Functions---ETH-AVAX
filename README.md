@@ -45,7 +45,6 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract MyToken is ERC20 {
     // Constructor to set the initial name and symbol of the token
     constructor() ERC20 ("Mytoken","DSR") {}
-    
 
     // Mint function to create new tokens
     // Only the owner of the contract can call this function
@@ -55,8 +54,14 @@ contract MyToken is ERC20 {
 
     // Burn function to destroy tokens
     // Any user can call this function to burn their own tokens
-    function burn(address from, uint256 amount) public {
-        _burn(from, amount);
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+    }
+
+    // Transfer function to send tokens from sender to recipient
+    function transfer(address to, uint256 amount) override public returns (bool) {
+        _transfer(_msgSender(), to, amount);
+        return true;
     }
 }
 ````
